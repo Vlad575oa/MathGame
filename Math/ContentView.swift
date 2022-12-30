@@ -9,111 +9,115 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var correctAnswer = 0
-    @State private var choiceArray : [Int] = [0, 1, 2, 3]
+    @State private var choiceArray = [0, 1, 2, 3]
     @State private var firstNumber = 0
     @State private var secondNumber = 0
   
     @State private var score = 0
-    @State private var textD = ""
-    @State private var difficulty = 30
-    @State private var dif = 2
-
-
-    var difficultyArray = ["30", "50", "100", "500", "1000"]
-    var difficultyArray1 = [30, 50, 100, 500, 1000]
+    @State private var difficulty = 0
+  
+    var difficultyArray = [30, 50, 100, 500, 1000]
+    
     var body: some View {
-        
-        VStack {
-            Text("Сколько вкусняшек съела Арина?")
-                .multilineTextAlignment(.center)
-                .font(.system(size: 30, weight: .bold))
-                .padding(.bottom, 50)
-           
-            Text("\(firstNumber) + \(secondNumber)")
-                .font(.system(size: 50, weight: .bold))
-                .bold()
-                .padding()
-                .padding(.horizontal, 50)
-                .background(LinearGradient(colors: [.red, .green, .yellow], startPoint: .top, endPoint: .bottom)).cornerRadius(30)
+        ZStack {
+            Color.white
+            LinearGradient(gradient: Gradient(colors: [.green, .yellow, .blue]),startPoint: .top, endPoint: .bottom ).ignoresSafeArea()
             
-            HStack {
+            VStack {
+                Text("Сколько вкусняшек ты съела?")
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 30, weight: .bold))
+                    .padding(.bottom, 50)
+            
+                    switch score  {
+                    case 3:
+//                        withAnimation(.spring()) {
+                            Text("Ты молодец!")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(.red)
+                        
+                    case 5:
+                        Text("Умница!")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.blue)
+                    case 10:
+                        Text("Да ты гений!")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.green)
+                    case 15:
+                        Text("Класс!")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.white)
+                    case 20:
+                        Text("Ты супер умная!")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.orange)
+                    case 30:
+                        Text("Ты лучшая!")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.green)
+                            .padding()
+                        Image(systemName: "sun.max").font(.system(size: 30, weight: .bold))
+                        
+                    default:
+                        Text("")
+                    }
                 
-                ForEach(0..<2) {index in
-                    Button {
-                        answerIsCorrect(answer: choiceArray[index])
-                        generateAnswers()
-                    } label: {
-                        AnswerButton(number: choiceArray[index])
-                    }
-                }
-            }
-            
-            HStack {
-                ForEach(2..<4) {index in
-                    Button {
-                        answerIsCorrect(answer: choiceArray[index])
-                        generateAnswers()
-                    } label: {
-                        AnswerButton(number: choiceArray[index])
-                    }
-                }
-            }
-            
-            
-            Text("Счет: \(score)")
-                .font(.system(size: 30, weight: .bold))
-                .bold()
-             
-            
-            Button("Сбросить счет") {
-                score = 0
-            }.padding()
-            
-            Text("Уровень сложности")
-            
-            Picker(selection: $dif, label:
-                    Text("level")) {
-                ForEach(0..<difficultyArray1.count) { Text("\(difficultyArray1[$0])")
-                }
-            }.pickerStyle(SegmentedPickerStyle())
-            
-            
-        
-            
-            switch score  {
-            case 3:
-                Text("Ты молодец!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.red)
-            case 5:
-                Text("Умница!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.blue)
-            case 10:
-                Text("Да ты гений!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.green)
-            case 15:
-                Text("Класс!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.yellow)
-            case 20:
-                Text("Ты супер умная!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.orange)
-            case 30:
-                Text("Ты лучшая!")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.green)
+                
+                Text("\(firstNumber) + \(secondNumber)")
+                    .font(.system(size: 50, weight: .bold))
+                    .bold()
                     .padding()
-                Image(systemName: "sun.max").font(.system(size: 30, weight: .bold))
+                    .padding(.horizontal, 60)
+                    .background(LinearGradient(colors: [.purple, .blue], startPoint: .leading, endPoint: .trailing)).cornerRadius(40)
                 
-            default:
-                Text("")
+                HStack {
+                    
+                    ForEach(0..<2) {index in
+                        Button {
+                            answerIsCorrect(answer: choiceArray[index])
+                            generateAnswers()
+                        } label: {
+                            AnswerButton(number: choiceArray[index])
+                        }
+                    }
+                }
+                
+                HStack {
+                    ForEach(2..<4) {index in
+                        Button {
+                            answerIsCorrect(answer: choiceArray[index])
+                            generateAnswers()
+                        } label: {
+                            AnswerButton(number: choiceArray[index])
+                        }
+                    }
+                }
+                
+                
+                Text("Счет: \(score)")
+                    .font(.system(size: 30, weight: .bold))
+                    .bold()
+                
+                
+                Button("Сбросить счет") {
+                    score = 0
+                }
+                .foregroundColor(.black)
+                .font(.system(size: 20, weight: .bold))
+                .padding()
+                
+                Text("Уровень сложности")
+                .font(.system(size: 20, weight: .bold))
+                
+                Picker(selection: $difficulty, label:
+                        Text("level")) {
+                    ForEach(0..<difficultyArray.count) { Text("\(difficultyArray[$0])")
+                    }
+                }.pickerStyle(SegmentedPickerStyle())
             }
         }
     }
-
 
     
     func answerIsCorrect(answer: Int){
@@ -126,14 +130,14 @@ struct ContentView: View {
     }
     
     func generateAnswers(){
-        firstNumber = Int.random(in: 1...(difficultyArray1[dif]/2))
-        secondNumber = Int.random(in: 1...(difficultyArray1[dif]/2))
+        firstNumber = Int.random(in: 1...(difficultyArray[difficulty]/2))
+        secondNumber = Int.random(in: 1...(difficultyArray[difficulty]/2))
         var answerList = [Int]()
         
         correctAnswer = firstNumber + secondNumber
         
         for _ in 0...2 {
-            answerList.append(Int.random(in: 1...difficulty))
+            answerList.append(Int.random(in: 1...difficultyArray[difficulty]))
         }
         
         answerList.append(correctAnswer)
